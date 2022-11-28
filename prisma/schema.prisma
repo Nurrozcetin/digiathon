@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Signal {
+  id               String  @id @unique @default(uuid())
+  product_Type     String
+  receiver_Address String
+  product_Amount   Int
+  product_Exp_Date String
+  product_Ubb      String
+  product_Lot      String
+  File             Files[]
+}
+
+model Files {
+  id       Int    @id @default(autoincrement())
+  filename String
+  signal   Signal @relation(fields: [signalId], references: [id])
+  signalId String
+}
